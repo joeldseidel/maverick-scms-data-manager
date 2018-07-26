@@ -1,0 +1,723 @@
+{
+  "meta": {
+    "last_updated": "2018-07-26",
+    "terms": "https://open.fda.gov/terms/",
+    "results": {
+      "skip": 900000,
+      "total": 1259118,
+      "limit": 100000
+    },
+    "license": "https://open.fda.gov/license/",
+    "disclaimer": "Do not rely on openFDA to make decisions regarding medical care. While we make every effort to ensure that data is accurate, you should assume all results are unvalidated. We may limit or otherwise restrict your access to the API in line with our Terms of Service."
+  },
+  "results": [
+    {
+      "customer_contacts": [
+        {
+          "phone": "+1(800)633-5463",
+          "email": "customerservice@medline.com"
+        }
+      ],
+      "is_rx": "true",
+      "is_kit": "true",
+      "brand_name": "Medline Industries, Inc.",
+      "has_expiration_date": "true",
+      "has_serial_number": "false",
+      "catalog_number": "VAL0CGBPMEA",
+      "has_lot_or_batch_number": "true",
+      "is_single_use": "true",
+      "is_otc": "false",
+      "record_status": "Published",
+      "is_labeled_as_no_nrl": "false",
+      "device_count_in_base_package": "1",
+      "is_combination_product": "false",
+      "is_pm_exempt": "true",
+      "company_name": "Medline Industries, Inc.",
+      "mri_safety": "Labeling does not contain MRI Safety Information",
+      "commercial_distribution_status": "In Commercial Distribution",
+      "device_description": "EYE BASIC PACK",
+      "sterilization": {
+        "is_sterilization_prior_use": "false",
+        "is_sterile": "true"
+      },
+      "is_labeled_as_nrl": "true",
+      "is_direct_marking_exempt": "true",
+      "version_or_model_number": "VAL0CGBPMEA",
+      "has_donation_id_number": "false",
+      "has_manufacturing_date": "false",
+      "identifiers": [
+        {
+          "issuing_agency": "GS1",
+          "type": "Primary",
+          "id": "10889942017744"
+        }
+      ],
+      "is_hct_p": "false",
+      "gmdn_terms": [
+        {
+          "definition": "A general-purpose collection of various sterile surgical instruments, dressings, and materials intended to be used to assist a range of surgical procedures across multiple clinical specialities. It does not contain pharmaceuticals. This is a reusable device.",
+          "name": "General surgical procedure kit, non-medicated, reusable"
+        }
+      ],
+      "publish_date": "2016-09-30",
+      "product_codes": [
+        {
+          "code": "OJK",
+          "openfda": {
+            "regulation_number": "886.4790",
+            "medical_specialty_description": "Ophthalmic",
+            "device_class": "2",
+            "device_name": "Eye Tray"
+          },
+          "name": "Eye tray"
+        }
+      ]
+    },
+    {
+      "customer_contacts": [
+        {
+          "phone": "+1(800)633-5463",
+          "email": "customerservice@medline.com"
+        }
+      ],
+      "is_rx": "true",
+      "is_kit": "true",
+      "brand_name": "Medline Industries, Inc.",
+      "has_expiration_date": "true",
+      "has_serial_number": "false",
+      "catalog_number": "DYNJ22701G",
+      "has_lot_or_batch_number": "true",
+      "is_single_use": "true",
+      "is_otc": "false",
+      "record_status": "Published",
+      "is_labeled_as_no_nrl": "false",
+      "device_count_in_base_package": "1",
+      "is_combination_product": "false",
+      "is_pm_exempt": "true",
+      "company_name": "Medline Industries, Inc.",
+      "mri_safety": "Labeling does not contain MRI Safety Information",
+      "commercial_distribution_status": "In Commercial Distribution",
+      "device_description": "LAPAROSCOPY PACK",
+      "sterilization": {
+        "is_sterilization_prior_use": "false",
+        "is_sterile": "true"
+      },
+      "is_labeled_as_nrl": "false",
+      "is_direct_marking_exempt": "true",
+      "version_or_model_number": "DYNJ22701G",
+      "has_donation_id_number": "false",
+      "has_manufacturing_date": "false",
+      "identifiers": [
+        {
+          "issuing_agency": "GS1",
+          "type": "Primary",
+          "id": "10889942033362"
+        }
+      ],
+      "is_hct_p": "false",
+      "gmdn_terms": [
+        {
+          "definition": "A general-purpose collection of various sterile surgical instruments, dressings, and materials intended to be used to assist a range of surgical procedures across multiple clinical specialities. It does not contain pharmaceuticals. This is a reusable device.",
+          "name": "General surgical procedure kit, non-medicated, reusable"
+        }
+      ],
+      "publish_date": "2016-11-07",
+      "product_codes": [
+        {
+          "code": "FDE",
+          "openfda": {
+            "regulation_number": "876.1500",
+            "medical_specialty_description": "Gastroenterology, Urology",
+            "device_class": "2",
+            "device_name": "Laparoscopy Kit"
+          },
+          "name": "laparoscopy kit"
+        }
+      ]
+    },
+    {
+      "customer_contacts": [
+        {
+          "phone": "+1(800)633-5463",
+          "email": "customerservice@medline.com"
+        }
+      ],
+      "is_rx": "true",
+      "is_kit": "true",
+      "brand_name": "Medline Industries, Inc.",
+      "has_expiration_date": "true",
+      "has_serial_number": "false",
+      "catalog_number": "DYNJ900688C",
+      "has_lot_or_batch_number": "true",
+      "is_single_use": "true",
+      "is_otc": "false",
+      "record_status": "Published",
+      "is_labeled_as_no_nrl": "true",
+      "device_count_in_base_package": "1",
+      "is_combination_product": "false",
+      "is_pm_exempt": "false",
+      "company_name": "Medline Industries, Inc.",
+      "mri_safety": "Labeling does not contain MRI Safety Information",
+      "commercial_distribution_status": "In Commercial Distribution",
+      "device_description": "VATS TGH-LF",
+      "sterilization": {
+        "is_sterilization_prior_use": "false",
+        "is_sterile": "false"
+      },
+      "is_labeled_as_nrl": "false",
+      "is_direct_marking_exempt": "true",
+      "version_or_model_number": "DYNJ900688C",
+      "has_donation_id_number": "false",
+      "has_manufacturing_date": "false",
+      "identifiers": [
+        {
+          "issuing_agency": "GS1",
+          "type": "Primary",
+          "id": "10889942164479"
+        }
+      ],
+      "is_hct_p": "false",
+      "gmdn_terms": [
+        {
+          "definition": "A general-purpose collection of various sterile surgical instruments, dressings, and materials intended to be used to assist a range of surgical procedures across multiple clinical specialities. It does not contain pharmaceuticals. This is a reusable device.",
+          "name": "General surgical procedure kit, non-medicated, reusable"
+        }
+      ],
+      "publish_date": "2016-09-30",
+      "product_codes": [
+        {
+          "code": "LRO",
+          "openfda": {
+            "regulation_number": "878.4370",
+            "medical_specialty_description": "General, Plastic Surgery",
+            "device_class": "2",
+            "device_name": "General Surgery Tray"
+          },
+          "name": "General surgery tray"
+        }
+      ]
+    },
+    {
+      "is_rx": "true",
+      "is_kit": "false",
+      "brand_name": "Novation",
+      "has_expiration_date": "true",
+      "has_serial_number": "true",
+      "catalog_number": "180-01-40",
+      "has_lot_or_batch_number": "false",
+      "is_single_use": "true",
+      "is_otc": "false",
+      "record_status": "Published",
+      "is_labeled_as_no_nrl": "false",
+      "device_count_in_base_package": "1",
+      "is_combination_product": "false",
+      "is_pm_exempt": "false",
+      "company_name": "Exactech, Inc.",
+      "mri_safety": "Labeling does not contain MRI Safety Information",
+      "commercial_distribution_status": "In Commercial Distribution",
+      "sterilization": {
+        "is_sterilization_prior_use": "false",
+        "is_sterile": "true"
+      },
+      "device_sizes": [
+        {
+          "text": "Group 00",
+          "type": "Device Size Text, specify"
+        },
+        {
+          "type": "Outer Diameter",
+          "unit": "Millimeter",
+          "value": "40"
+        }
+      ],
+      "is_labeled_as_nrl": "false",
+      "is_direct_marking_exempt": "false",
+      "version_or_model_number": "180-01-40",
+      "has_donation_id_number": "false",
+      "has_manufacturing_date": "false",
+      "identifiers": [
+        {
+          "issuing_agency": "GS1",
+          "type": "Primary",
+          "id": "10885862036957"
+        }
+      ],
+      "is_hct_p": "false",
+      "gmdn_terms": [
+        {
+          "definition": "A sterile, implantable component of a two-piece acetabulum prosthesis that forms the outer portion of the prosthesis, fixed to the pelvis to provide a base for the inner portion (acetabular liner). It is made of metal, and is fixed with bone cement and/or fixation devices.",
+          "name": "Acetabular shell"
+        }
+      ],
+      "publish_date": "2015-08-10",
+      "product_codes": [
+        {
+          "code": "JDI",
+          "openfda": {
+            "regulation_number": "888.3350",
+            "medical_specialty_description": "Orthopedic",
+            "device_class": "2",
+            "device_name": "Prosthesis, Hip, Semi-Constrained, Metal/Polymer, Cemented"
+          },
+          "name": "Prosthesis, Hip, Semi-Constrained, Metal/Polymer, Cemented"
+        },
+        {
+          "code": "LPH",
+          "openfda": {
+            "regulation_number": "888.3358",
+            "medical_specialty_description": "Orthopedic",
+            "device_class": "2",
+            "device_name": "Prosthesis, Hip, Semi-Constrained, Metal/Polymer, Porous Uncemented"
+          },
+          "name": "Prosthesis, Hip, Semi-Constrained, Metal/Polymer, Porous Uncemented"
+        },
+        {
+          "code": "LWJ",
+          "openfda": {
+            "regulation_number": "888.3360",
+            "medical_specialty_description": "Orthopedic",
+            "device_class": "2",
+            "device_name": "Prosthesis, Hip, Semi-Constrained, Metal/Polymer, Uncemented"
+          },
+          "name": "Prosthesis, Hip, Semi-Constrained, Metal/Polymer, Uncemented"
+        },
+        {
+          "code": "LZO",
+          "openfda": {
+            "regulation_number": "888.3353",
+            "medical_specialty_description": "Orthopedic",
+            "device_class": "2",
+            "device_name": "Prosthesis, Hip, Semi-Constrained, Metal/Ceramic/Polymer, Cemented Or Non-Porous, Uncemented"
+          },
+          "name": "Prosthesis, Hip, Semi-Constrained, Metal/Ceramic/Polymer, Cemented Or Non-Porous, Uncemented"
+        },
+        {
+          "code": "MEH",
+          "openfda": {
+            "regulation_number": "888.3353",
+            "medical_specialty_description": "Orthopedic",
+            "device_class": "2",
+            "device_name": "Prosthesis, Hip, Semi-Constrained, Uncemented, Metal / Polymer, Non-Porous, Calcium Phosphate"
+          },
+          "name": "Prosthesis, Hip, Semi-Constrained, Uncemented, Metal/Polymer, Non-Porous, Calicum-Phosphate"
+        }
+      ]
+    },
+    {
+      "is_rx": "true",
+      "is_kit": "false",
+      "brand_name": "Duracon",
+      "has_expiration_date": "false",
+      "has_serial_number": "false",
+      "catalog_number": "6642-2-627",
+      "has_lot_or_batch_number": "true",
+      "is_single_use": "true",
+      "is_otc": "false",
+      "record_status": "Published",
+      "is_labeled_as_no_nrl": "false",
+      "device_count_in_base_package": "1",
+      "is_combination_product": "false",
+      "is_pm_exempt": "false",
+      "company_name": "Howmedica Osteonics Corp.",
+      "mri_safety": "Labeling does not contain MRI Safety Information",
+      "commercial_distribution_status": "In Commercial Distribution",
+      "device_description": "Inset Patella",
+      "sterilization": {
+        "is_sterilization_prior_use": "false",
+        "is_sterile": "true"
+      },
+      "device_sizes": [
+        {
+          "text": "Thickness: 10.0 Millimeter",
+          "type": "Device Size Text, specify"
+        },
+        {
+          "text": "Diameter: 27.0 Millimeter",
+          "type": "Device Size Text, specify"
+        }
+      ],
+      "is_labeled_as_nrl": "false",
+      "is_direct_marking_exempt": "false",
+      "version_or_model_number": "6642-2-627",
+      "has_donation_id_number": "false",
+      "has_manufacturing_date": "false",
+      "identifiers": [
+        {
+          "issuing_agency": "GS1",
+          "type": "Primary",
+          "id": "07613327101867"
+        }
+      ],
+      "is_hct_p": "false",
+      "gmdn_terms": [
+        {
+          "definition": "An artificial kneecap (patellar component) made of polyethylene (PE) and implanted during primary or revision bicondylar knee joint replacement. It is a sterile device designed to articulate with a prosthetic distal femoral component and is implanted on the back of the natural patella with bone cement.",
+          "name": "Polyethylene patella prosthesis"
+        }
+      ],
+      "publish_date": "2015-09-24",
+      "product_codes": [
+        {
+          "code": "JWH",
+          "openfda": {
+            "regulation_number": "888.3560",
+            "medical_specialty_description": "Orthopedic",
+            "device_class": "2",
+            "device_name": "Prosthesis, Knee, Patellofemorotibial, Semi-Constrained, Cemented, Polymer/Metal/Polymer"
+          },
+          "name": "PROSTHESIS, KNEE, PATELLOFEMOROTIBIAL, SEMI-CONSTRAINED, CEMENTED, POLYMER/METAL/POLYMER"
+        }
+      ]
+    },
+    {
+      "customer_contacts": [
+        {
+          "phone": "1-800-235-7500",
+          "email": "mwinter@curbell.com"
+        }
+      ],
+      "is_rx": "false",
+      "is_kit": "false",
+      "brand_name": "GEN4 Direct Access",
+      "has_expiration_date": "false",
+      "has_serial_number": "true",
+      "catalog_number": "1429",
+      "has_lot_or_batch_number": "true",
+      "is_single_use": "false",
+      "is_otc": "false",
+      "record_status": "Published",
+      "is_labeled_as_no_nrl": "false",
+      "device_count_in_base_package": "1",
+      "is_combination_product": "false",
+      "is_pm_exempt": "true",
+      "company_name": "CURBELL MEDICAL PRODUCTS, INC.",
+      "mri_safety": "Labeling does not contain MRI Safety Information",
+      "commercial_distribution_status": "In Commercial Distribution",
+      "device_description": "GEN4 Direct Access",
+      "sterilization": {
+        "is_sterilization_prior_use": "false",
+        "is_sterile": "false"
+      },
+      "is_labeled_as_nrl": "false",
+      "is_direct_marking_exempt": "false",
+      "version_or_model_number": "4C100U-Z104128",
+      "has_donation_id_number": "false",
+      "has_manufacturing_date": "true",
+      "identifiers": [
+        {
+          "issuing_agency": "GS1",
+          "type": "Primary",
+          "id": "00840828102155"
+        }
+      ],
+      "is_hct_p": "false",
+      "gmdn_terms": [
+        {
+          "definition": "A loudspeaker intended to be used by a patient when lying in bed or resting in a chair by putting it close to their ear or between a pillow and their ear. It is typically designed as a small pillow-like device that contains a loudspeaker and that has a cable and a connector for connection to a radio, television, or other sound-emitting device with a Jack plug sound outlet. The sound level is regulated by the user with an adjustable control. It is typically used to create a relaxing atmosphere with music, for entertainment (e.g., to listen to the radio), and to aid sleep and relieve tinnitus.",
+          "name": "Pillow speaker"
+        }
+      ],
+      "publish_date": "2016-09-24",
+      "product_codes": [
+        {
+          "code": "ILQ",
+          "openfda": {
+            "regulation_number": "890.3710",
+            "medical_specialty_description": "Physical Medicine",
+            "device_class": "2",
+            "device_name": "System, Communication, Powered"
+          },
+          "name": "System, Communication, Powered"
+        }
+      ]
+    },
+    {
+      "is_rx": "true",
+      "is_kit": "false",
+      "brand_name": "Renovis",
+      "has_expiration_date": "false",
+      "has_serial_number": "false",
+      "catalog_number": "1702-753-080",
+      "has_lot_or_batch_number": "true",
+      "is_single_use": "true",
+      "is_otc": "false",
+      "record_status": "Published",
+      "is_labeled_as_no_nrl": "false",
+      "device_count_in_base_package": "1",
+      "is_combination_product": "false",
+      "is_pm_exempt": "false",
+      "company_name": "RENOVIS SURGICAL TECHNOLOGIES, LLC",
+      "mri_safety": "Labeling does not contain MRI Safety Information",
+      "commercial_distribution_status": "In Commercial Distribution",
+      "device_description": "7.5mm Cannulated Screw, 20 Thread, L 80mm-Ti",
+      "sterilization": {
+        "is_sterilization_prior_use": "true",
+        "sterilization_methods": "Moist Heat or Steam Sterilization",
+        "is_sterile": "false"
+      },
+      "is_labeled_as_nrl": "false",
+      "is_direct_marking_exempt": "false",
+      "version_or_model_number": "T700",
+      "has_donation_id_number": "false",
+      "has_manufacturing_date": "false",
+      "identifiers": [
+        {
+          "issuing_agency": "GS1",
+          "type": "Primary",
+          "id": "00841523114719"
+        }
+      ],
+      "is_hct_p": "false",
+      "gmdn_terms": [
+        {
+          "definition": "A small, non-sterile, threaded rod with a slotted head typically used for internal orthopaedic fracture fixation by being screwed into bone to hold plates or nails to bone or to provide direct interfragmentary stabilization of bone, or it may fasten soft tissue to bone; it is made of a material that cannot be chemically degraded or absorbed via natural body processes (includes implant grade metal such as surgical steel, titanium alloy, or carbon fibre). Screws available are: cortical, cancellous, malleolar, scaphoid, partially-threaded and fully-threaded, self-tapping, and cannulated. A \"lag screw\" can be any of these used to obtain compression. This device must be sterilized prior to use.",
+          "name": "Orthopaedic bone screw, non-bioabsorbable, non-sterile"
+        }
+      ],
+      "publish_date": "2015-10-28",
+      "product_codes": [
+        {
+          "code": "HTN",
+          "openfda": {
+            "regulation_number": "888.3030",
+            "medical_specialty_description": "Orthopedic",
+            "device_class": "2",
+            "device_name": "Washer, Bolt Nut"
+          },
+          "name": "Washer, Bolt Nut"
+        },
+        {
+          "code": "HWC",
+          "openfda": {
+            "regulation_number": "888.3040",
+            "medical_specialty_description": "Orthopedic",
+            "device_class": "2",
+            "device_name": "Screw, Fixation, Bone"
+          },
+          "name": "Screw, Fixation, Bone"
+        }
+      ]
+    },
+    {
+      "is_rx": "true",
+      "is_kit": "false",
+      "brand_name": "Renovis",
+      "has_expiration_date": "false",
+      "has_serial_number": "false",
+      "catalog_number": "1703-673-120",
+      "has_lot_or_batch_number": "true",
+      "is_single_use": "true",
+      "is_otc": "false",
+      "record_status": "Published",
+      "is_labeled_as_no_nrl": "false",
+      "device_count_in_base_package": "1",
+      "is_combination_product": "false",
+      "is_pm_exempt": "false",
+      "company_name": "RENOVIS SURGICAL TECHNOLOGIES, LLC",
+      "mri_safety": "Labeling does not contain MRI Safety Information",
+      "commercial_distribution_status": "In Commercial Distribution",
+      "device_description": "6.7mm Cannulated Screw, 18 Thread, L 120mm 316L SS",
+      "sterilization": {
+        "is_sterilization_prior_use": "true",
+        "sterilization_methods": "Moist Heat or Steam Sterilization",
+        "is_sterile": "false"
+      },
+      "is_labeled_as_nrl": "false",
+      "is_direct_marking_exempt": "false",
+      "version_or_model_number": "T700",
+      "has_donation_id_number": "false",
+      "has_manufacturing_date": "false",
+      "identifiers": [
+        {
+          "issuing_agency": "GS1",
+          "type": "Primary",
+          "id": "00841523116645"
+        }
+      ],
+      "is_hct_p": "false",
+      "gmdn_terms": [
+        {
+          "definition": "A small, non-sterile, threaded rod with a slotted head typically used for internal orthopaedic fracture fixation by being screwed into bone to hold plates or nails to bone or to provide direct interfragmentary stabilization of bone, or it may fasten soft tissue to bone; it is made of a material that cannot be chemically degraded or absorbed via natural body processes (includes implant grade metal such as surgical steel, titanium alloy, or carbon fibre). Screws available are: cortical, cancellous, malleolar, scaphoid, partially-threaded and fully-threaded, self-tapping, and cannulated. A \"lag screw\" can be any of these used to obtain compression. This device must be sterilized prior to use.",
+          "name": "Orthopaedic bone screw, non-bioabsorbable, non-sterile"
+        }
+      ],
+      "publish_date": "2015-10-27",
+      "product_codes": [
+        {
+          "code": "HTN",
+          "openfda": {
+            "regulation_number": "888.3030",
+            "medical_specialty_description": "Orthopedic",
+            "device_class": "2",
+            "device_name": "Washer, Bolt Nut"
+          },
+          "name": "Washer, Bolt Nut"
+        },
+        {
+          "code": "HWC",
+          "openfda": {
+            "regulation_number": "888.3040",
+            "medical_specialty_description": "Orthopedic",
+            "device_class": "2",
+            "device_name": "Screw, Fixation, Bone"
+          },
+          "name": "Screw, Fixation, Bone"
+        }
+      ]
+    },
+    {
+      "is_rx": "true",
+      "is_kit": "true",
+      "brand_name": "CARDINAL HEALTH",
+      "has_expiration_date": "true",
+      "has_serial_number": "false",
+      "catalog_number": "PWOCMPMWL",
+      "has_lot_or_batch_number": "true",
+      "is_single_use": "true",
+      "is_otc": "false",
+      "storage": [
+        {
+          "high": {
+            "value": "30",
+            "unit": "Degrees Celsius"
+          },
+          "type": "Storage Environment Temperature",
+          "low": {
+            "value": "15",
+            "unit": "Degrees Celsius"
+          }
+        }
+      ],
+      "record_status": "Published",
+      "is_labeled_as_no_nrl": "true",
+      "device_count_in_base_package": "1",
+      "is_combination_product": "false",
+      "is_pm_exempt": "true",
+      "company_name": "CARDINAL HEALTH 200, LLC",
+      "mri_safety": "Labeling does not contain MRI Safety Information",
+      "commercial_distribution_status": "In Commercial Distribution",
+      "device_description": "KIT MAJOR PLASTICS, MOSES",
+      "sterilization": {
+        "is_sterilization_prior_use": "false",
+        "is_sterile": "true"
+      },
+      "is_labeled_as_nrl": "false",
+      "is_direct_marking_exempt": "false",
+      "version_or_model_number": "PWOCMPMWL",
+      "has_donation_id_number": "false",
+      "has_manufacturing_date": "true",
+      "identifiers": [
+        {
+          "issuing_agency": "GS1",
+          "unit_of_use_id": "10887488353401",
+          "package_status": "In Commercial Distribution",
+          "quantity_per_package": "1",
+          "type": "Package",
+          "id": "50887488353409"
+        },
+        {
+          "issuing_agency": "GS1",
+          "type": "Primary",
+          "id": "10887488353401"
+        }
+      ],
+      "is_hct_p": "false",
+      "gmdn_terms": [
+        {
+          "definition": "A general-purpose collection of various sterile surgical instruments, dressings, and materials, including a pharmaceutical component, intended to be used to assist a range of surgical procedures across multiple clinical specialities. This is a single-use device.",
+          "name": "General surgical procedure kit, medicated"
+        }
+      ],
+      "publish_date": "2016-07-07",
+      "product_codes": [
+        {
+          "code": "LRO",
+          "openfda": {
+            "regulation_number": "878.4370",
+            "medical_specialty_description": "General, Plastic Surgery",
+            "device_class": "2",
+            "device_name": "General Surgery Tray"
+          },
+          "name": "General surgery tray (kit)"
+        }
+      ]
+    },
+    {
+      "is_rx": "true",
+      "is_kit": "true",
+      "brand_name": "CARDINAL HEALTH",
+      "has_expiration_date": "true",
+      "has_serial_number": "false",
+      "catalog_number": "SOP31ARCTL",
+      "has_lot_or_batch_number": "true",
+      "is_single_use": "true",
+      "is_otc": "false",
+      "storage": [
+        {
+          "high": {
+            "value": "30",
+            "unit": "Degrees Celsius"
+          },
+          "type": "Storage Environment Temperature",
+          "low": {
+            "value": "15",
+            "unit": "Degrees Celsius"
+          }
+        }
+      ],
+      "record_status": "Published",
+      "is_labeled_as_no_nrl": "true",
+      "device_count_in_base_package": "1",
+      "is_combination_product": "false",
+      "is_pm_exempt": "true",
+      "company_name": "CARDINAL HEALTH 200, LLC",
+      "mri_safety": "Labeling does not contain MRI Safety Information",
+      "commercial_distribution_status": "In Commercial Distribution",
+      "device_description": "STERILE ARTHROSCOPY PACK",
+      "sterilization": {
+        "is_sterilization_prior_use": "false",
+        "is_sterile": "true"
+      },
+      "is_labeled_as_nrl": "false",
+      "is_direct_marking_exempt": "false",
+      "version_or_model_number": "SOP31ARCTL",
+      "has_donation_id_number": "false",
+      "has_manufacturing_date": "true",
+      "identifiers": [
+        {
+          "issuing_agency": "GS1",
+          "unit_of_use_id": "10887488457048",
+          "package_status": "In Commercial Distribution",
+          "quantity_per_package": "3",
+          "type": "Package",
+          "id": "50887488457046"
+        },
+        {
+          "issuing_agency": "GS1",
+          "type": "Primary",
+          "id": "10887488457048"
+        }
+      ],
+      "is_hct_p": "false",
+      "gmdn_terms": [
+        {
+          "definition": "A collection of various sterile surgical and endoscopic instruments, dressings and the necessary materials used to perform an arthroscopic surgical procedure. It does not contain any pharmaceuticals. This is a single-use device.",
+          "name": "Arthroscopic surgical procedure kit, non-medicated, single-use"
+        }
+      ],
+      "publish_date": "2016-09-13",
+      "product_codes": [
+        {
+          "code": "OJH",
+          "openfda": {
+            "regulation_number": "878.4800",
+            "medical_specialty_description": "General, Plastic Surgery",
+            "device_class": "1",
+            "device_name": "Orthopedic Tray"
+          },
+          "name": "Orthopedic tray"
+        }
+      ]
+    }
+  ]
+}

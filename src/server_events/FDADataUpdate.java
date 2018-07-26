@@ -1,3 +1,4 @@
+package server_events;
 import maverick_data.Config;
 import maverick_data.DatabaseInteraction;
 import org.json.JSONArray;
@@ -23,6 +24,8 @@ import static java.util.Objects.isNull;
  * @author Joel Seidel
  */
 
+//CLASS REMAINS IN PROJECT FOR REFERENCE AND EVENTUAL USE IN REVAMP. NONE OF THIS CODE WORKS ANYMORE
+
 public class FDADataUpdate implements Runnable {
     private Thread fdaUpdateThread;
     private File destinationFile;
@@ -35,13 +38,15 @@ public class FDADataUpdate implements Runnable {
 
     @Override
     public void run(){
-        System.out.println("Starting to update FDA data on thread " + fdaUpdateThread.getName());
-        while(!Thread.interrupted()){
-            fetchFDAFiles();
-            parseFDAFiles();
-        }
+        //System.out.println("Starting to update FDA data on thread " + fdaUpdateThread.getName());
+        //while(!Thread.interrupted()){
+            //fetchFDAFiles();
+            //parseFDAFiles();
+        //}
     }
 
+    /*
+    *** Moved to ReaderThread class ***
     private void parseFDAFiles(){
         //Loop through all data files fetched from the FDA, parse the data therein, and write to database
         //Get all local storage file contents (this will be all the data files)
@@ -52,345 +57,359 @@ public class FDADataUpdate implements Runnable {
             File thisDataFilePath = new File(dataFilesList[i].listFiles()[0].getPath());
             parseFDAFileToDatabase(thisDataFilePath);
         }
-    }
+    }*/
 
-    private void parseFDAFileToDatabase(File parseFromFile){
-        JSONObject queryMetaDataObject = getMetaData(parseFromFile);
-        //Calculate the total record count of a file from the metadata
-        int totalRecordCount = queryMetaDataObject.getJSONObject("results").getInt("total") - queryMetaDataObject.getJSONObject("results").getInt("skip");
-        int recordCounter = 1;
-        boolean remainingObjectsInFile = true;
-        DatabaseInteraction database = new DatabaseInteraction(Config.host, Config.port, Config.user, Config.pass, Config.databaseName);
-        do {
-            System.out.println("Writing record " + recordCounter + "/" + totalRecordCount);
-            //Get the next device record from the data file
-            JSONObject readObject = getNextJsonObjectFromFile(parseFromFile);
-            if(!isNull(readObject)){
-                //Device record was successfully fetched, write it to the database
-                writeDevice(readObject, database);
-            } else {
-                //Device record was not successfully fetched, there are no more records to read
-                remainingObjectsInFile = false;
-            }
-            recordCounter++;
-        } while(remainingObjectsInFile);
-    }
+    //*** Moved to ReaderThread class ***
+//    private void parseFDAFileToDatabase(File parseFromFile){
+//        JSONObject queryMetaDataObject = getMetaData(parseFromFile);
+//        //Calculate the total record count of a file from the metadata
+//        int totalRecordCount = queryMetaDataObject.getJSONObject("results").getInt("total") - queryMetaDataObject.getJSONObject("results").getInt("skip");
+//        int recordCounter = 1;
+//        boolean remainingObjectsInFile = true;
+//        DatabaseInteraction database = new DatabaseInteraction(Config.host, Config.port, Config.user, Config.pass, Config.databaseName);
+//        do {
+//            System.out.println("Writing record " + recordCounter + "/" + totalRecordCount);
+//            //Get the next device record from the data file
+//            JSONObject readObject = getNextJsonObjectFromFile(parseFromFile);
+//            if(!isNull(readObject)){
+//                //Device record was successfully fetched, write it to the database
+//                writeDevice(readObject, database);
+//            } else {
+//                //Device record was not successfully fetched, there are no more records to read
+//                remainingObjectsInFile = false;
+//            }
+//            recordCounter++;
+//        } while(remainingObjectsInFile);
+//    }
 
-    private JSONObject getNextJsonObjectFromFile(File parseFromFile){
-        //Read one single device JSON object and its child objects from data file
-        String thisJsonObjectString = "";
-        try(BufferedReader br = new BufferedReader(new FileReader(parseFromFile))){
-            //Advance reader to the line we need
-            for(int i = 0; i <= lastLineIndex; i++){
-                br.readLine();
-            }
-            String thisLine;
-            int openObjectCount = 0; int closedOjectCount = 0;
-            //Check to see if we have to throw out that first line
-            if(resultIndex == 0){
-                //Yup, throw out that first line
-                br.readLine();
-            }
-            while((thisLine = br.readLine()) != null && (openObjectCount != closedOjectCount || openObjectCount == 0)){
-                //Read lines until the amount of open JSON objects matches the number of closed JSON objects
-                //Since the objects are being read line by line an open object is one which has not had its closing }
-                if(thisLine.contains("{")){
-                    //This line is the start of a new object
-                    openObjectCount++;
-                }
-                if(thisLine.contains("}")){
-                    //This line is the last line of an object being read
-                    closedOjectCount++;
-                }
-                thisJsonObjectString += thisLine;
-                lastLineIndex++;
-            }
-        } catch(IOException ioE){
-            return null;
-        }
-        return new JSONObject(thisJsonObjectString);
-    }
+    //*** Moved to ReaderThread class ***
+//    private JSONObject getNextJsonObjectFromFile(File parseFromFile){
+//        //Read one single device JSON object and its child objects from data file
+//        String thisJsonObjectString = "";
+//        try(BufferedReader br = new BufferedReader(new FileReader(parseFromFile))){
+//            //Advance reader to the line we need
+//            for(int i = 0; i <= lastLineIndex; i++){
+//                br.readLine();
+//            }
+//            String thisLine;
+//            int openObjectCount = 0; int closedOjectCount = 0;
+//            //Check to see if we have to throw out that first line
+//            if(resultIndex == 0){
+//                //Yup, throw out that first line
+//                br.readLine();
+//            }
+//            while((thisLine = br.readLine()) != null && (openObjectCount != closedOjectCount || openObjectCount == 0)){
+//                //Read lines until the amount of open JSON objects matches the number of closed JSON objects
+//                //Since the objects are being read line by line an open object is one which has not had its closing }
+//                if(thisLine.contains("{")){
+//                    //This line is the start of a new object
+//                    openObjectCount++;
+//                }
+//                if(thisLine.contains("}")){
+//                    //This line is the last line of an object being read
+//                    closedOjectCount++;
+//                }
+//                thisJsonObjectString += thisLine;
+//                lastLineIndex++;
+//            }
+//        } catch(IOException ioE){
+//            return null;
+//        }
+//        return new JSONObject(thisJsonObjectString);
+//    }
 
+    //REMOVED FOR NEW Thread IMPLEMENTATION
     //I hate to make this global but we need to return a few different values, I'm sorry programming gods
-    private int lastLineIndex = 0; private int resultIndex = 0;
+    //private int lastLineIndex = 0; private int resultIndex = 0;
 
-    private JSONObject getMetaData(File parseFromFile){
-        //Fetch the meta data object from the file being read
-        String metaDataObjectString = "{ ";
-        try(BufferedReader br = new BufferedReader(new FileReader(parseFromFile))){
-            String thisReadLine;
-            int openObjectCount = 0; int closedObjectCount = 0;
-            //Throw out the first line, it does not matter
-            br.readLine();
-            while((thisReadLine = br.readLine()) != null && (openObjectCount != closedObjectCount || openObjectCount == 0)){
-                //Read lines until the amount of open JSON objects matches the number of closed JSON objects
-                //Since the objects are being read line by line an open object is one which has not had its closing }
-                if (thisReadLine.contains("{")) {
-                    //This line is the start of a new object
-                    openObjectCount++;
-                }
-                if(thisReadLine.contains("}")){
-                    //This line is the last line of an object being read
-                    closedObjectCount++;
-                }
-                //Add the read line to the current object
-                metaDataObjectString += thisReadLine;
-                //Increment the index of the last read line in the file
-                lastLineIndex++;
-            }
-        } catch(IOException ioExcept){
-            //This won't happen. bet.
-            return null;
-        }
-        metaDataObjectString += "}";
-        return new JSONObject(metaDataObjectString).getJSONObject("meta");
-    }
+    //REMOVED FOR NEW IMPLEMENTATION
+//    private JSONObject getMetaData(File parseFromFile){
+//        //Fetch the meta data object from the file being read
+//        String metaDataObjectString = "{ ";
+//        try(BufferedReader br = new BufferedReader(new FileReader(parseFromFile))){
+//            String thisReadLine;
+//            int openObjectCount = 0; int closedObjectCount = 0;
+//            //Throw out the first line, it does not matter
+//            br.readLine();
+//            while((thisReadLine = br.readLine()) != null && (openObjectCount != closedObjectCount || openObjectCount == 0)){
+//                //Read lines until the amount of open JSON objects matches the number of closed JSON objects
+//                //Since the objects are being read line by line an open object is one which has not had its closing }
+//                if (thisReadLine.contains("{")) {
+//                    //This line is the start of a new object
+//                    openObjectCount++;
+//                }
+//                if(thisReadLine.contains("}")){
+//                    //This line is the last line of an object being read
+//                    closedObjectCount++;
+//                }
+//                //Add the read line to the current object
+//                metaDataObjectString += thisReadLine;
+//                //Increment the index of the last read line in the file
+//                lastLineIndex++;
+//            }
+//        } catch(IOException ioExcept){
+//            //This won't happen. bet.
+//            return null;
+//        }
+//        metaDataObjectString += "}";
+//        return new JSONObject(metaDataObjectString).getJSONObject("meta");
+//    }
 
-    private void fetchFDAFiles(){
-        //Get the url of the files served by the FDA to fetch and parse
-        String fdaFilesUrls[] = getFilesUrl();
-        for(int i = 0; i < fdaFilesUrls.length; i++){
-            //For each listed FDA file to fetch, fetch the file
-            String thisFileUrlString = fdaFilesUrls[i];
-            URL url;
-            try{
-                //Convert the provided URL string to an actual URL object
-                url = new URL(thisFileUrlString);
-            } catch(MalformedURLException malformedUrlException){
-                System.out.println("Bad url to fetch file at " + thisFileUrlString);
-                return;
-            }
-            HttpURLConnection httpConn;
-            int fetchFileResponseCode;
-            try{
-                //Establish an HTTP connection to the fda data server using the listed url
-                httpConn = (HttpURLConnection)url.openConnection();
-                //Get the FDA data server response code
-                fetchFileResponseCode = httpConn.getResponseCode();
-            } catch(IOException ioException){
-                System.out.println("Could not open connection to fetch file at " + thisFileUrlString);
-                return;
-            }
-            if(fetchFileResponseCode == HttpURLConnection.HTTP_OK){
-                //Attempt to fetch the file and do nothing if it fails so as to not block the next record
-                if(!fetchFile(httpConn)){
-                    return;
-                }
-            } else {
-                //The FDA data server came back with a bad response code
-                System.out.println("Bad request code to fetch file at " + thisFileUrlString);
-            }
-        }
-    }
+    //MOVED TO LocalDataDownloader CLASS
+//    private void fetchFDAFiles(){
+//        //Get the url of the files served by the FDA to fetch and parse
+//        String fdaFilesUrls[] = getFilesUrl();
+//        for(int i = 0; i < fdaFilesUrls.length; i++){
+//            //For each listed FDA file to fetch, fetch the file
+//            String thisFileUrlString = fdaFilesUrls[i];
+//            URL url;
+//            try{
+//                //Convert the provided URL string to an actual URL object
+//                url = new URL(thisFileUrlString);
+//            } catch(MalformedURLException malformedUrlException){
+//                System.out.println("Bad url to fetch file at " + thisFileUrlString);
+//                return;
+//            }
+//            HttpURLConnection httpConn;
+//            int fetchFileResponseCode;
+//            try{
+//                //Establish an HTTP connection to the fda data server using the listed url
+//                httpConn = (HttpURLConnection)url.openConnection();
+//                //Get the FDA data server response code
+//                fetchFileResponseCode = httpConn.getResponseCode();
+//            } catch(IOException ioException){
+//                System.out.println("Could not open connection to fetch file at " + thisFileUrlString);
+//                return;
+//            }
+//            if(fetchFileResponseCode == HttpURLConnection.HTTP_OK){
+//                //Attempt to fetch the file and do nothing if it fails so as to not block the next record
+//                if(!fetchFile(httpConn)){
+//                    return;
+//                }
+//            } else {
+//                //The FDA data server came back with a bad response code
+//                System.out.println("Bad request code to fetch file at " + thisFileUrlString);
+//            }
+//        }
+//    }
 
-    private String[] getFilesUrl(){
-        //Fetch the FDA data files meta file which contains the urls for all fda data files that we need to fetch
-        String fdaFileDataUrlString = "https://api.fda.gov/download.json";
-        URL fdaFileDataFile;
-        try{
-            //Create a url object for the meta data file
-            fdaFileDataFile = new URL(fdaFileDataUrlString);
-        } catch(MalformedURLException mUException){
-            System.out.println("Could not fetch FDA files meta file (bad url). Is the FDA system up?");
-            fdaUpdateThread.interrupt();
-            return null;
-        }
-        HttpURLConnection httpConn;
-        int fdaFileDataFileResponseCode;
-        try{
-            //Establish an http connection to the fda data server
-            httpConn = (HttpURLConnection)fdaFileDataFile.openConnection();
-            //Get FDA connection response code
-            fdaFileDataFileResponseCode = httpConn.getResponseCode();
-        } catch(IOException ioException) {
-            System.out.println("FDA server rejected request (bad response code)");
-            fdaUpdateThread.interrupt();
-            return null;
-        }
-        if(fdaFileDataFileResponseCode == HttpURLConnection.HTTP_OK){
-            //Attempt to fetch the meta data file from the fda server
-            if(!fetchFile(httpConn)){
-                //Could not fetch the file, interrupt the fda update thread as it cannot continue without this file
-                System.out.println("Could not fetch FDA files meta file. Is the FDA system up?");
-                fdaUpdateThread.interrupt();
-            }
-        }
-        //Get the file JSON object
-        JSONObject fileListRoot = getJSONRootFromFile(destinationFile);
-        //Get the file url array from the file JSON object
-        JSONArray fileJSONArray = fileListRoot.getJSONObject("results").getJSONObject("device").getJSONObject("udi").getJSONArray("partitions");
-        System.out.println("Found " + fileJSONArray.length() + " files to fetch");
-        String fileUrlArray[] = new String[fileJSONArray.length()];
-        for(int i = 0; i < fileJSONArray.length(); i++){
-            //Loop through the JSON array and put each of the file urls within into a string array for these urls
-            String thisFileUrlString = fileJSONArray.getJSONObject(i).getString("file");
-            fileUrlArray[i] = thisFileUrlString;
-        }
-        do {
-            //Delete the meta file, since we have the files url it contained, we no longer need it
-            //The delete process sometimes needs to be written more than once
-            destinationFile.delete();
-        } while(destinationFile.exists());
-        return fileUrlArray;
-    }
+    //*** MOVED TO LocalDataDownloader class
+//    private String[] getFilesUrl(){
+//        //Fetch the FDA data files meta file which contains the urls for all fda data files that we need to fetch
+//        String fdaFileDataUrlString = "https://api.fda.gov/download.json";
+//        URL fdaFileDataFile;
+//        try{
+//            //Create a url object for the meta data file
+//            fdaFileDataFile = new URL(fdaFileDataUrlString);
+//        } catch(MalformedURLException mUException){
+//            System.out.println("Could not fetch FDA files meta file (bad url). Is the FDA system up?");
+//            fdaUpdateThread.interrupt();
+//            return null;
+//        }
+//        HttpURLConnection httpConn;
+//        int fdaFileDataFileResponseCode;
+//        try{
+//            //Establish an http connection to the fda data server
+//            httpConn = (HttpURLConnection)fdaFileDataFile.openConnection();
+//            //Get FDA connection response code
+//            fdaFileDataFileResponseCode = httpConn.getResponseCode();
+//        } catch(IOException ioException) {
+//            System.out.println("FDA server rejected request (bad response code)");
+//            fdaUpdateThread.interrupt();
+//            return null;
+//        }
+//        if(fdaFileDataFileResponseCode == HttpURLConnection.HTTP_OK){
+//            //Attempt to fetch the meta data file from the fda server
+//            if(!fetchFile(httpConn)){
+//                //Could not fetch the file, interrupt the fda update thread as it cannot continue without this file
+//                System.out.println("Could not fetch FDA files meta file. Is the FDA system up?");
+//                fdaUpdateThread.interrupt();
+//            }
+//        }
+//        //Get the file JSON object
+//        JSONObject fileListRoot = getJSONRootFromFile(destinationFile);
+//        //Get the file url array from the file JSON object
+//        JSONArray fileJSONArray = fileListRoot.getJSONObject("results").getJSONObject("device").getJSONObject("udi").getJSONArray("partitions");
+//        System.out.println("Found " + fileJSONArray.length() + " files to fetch");
+//        String fileUrlArray[] = new String[fileJSONArray.length()];
+//        for(int i = 0; i < fileJSONArray.length(); i++){
+//            //Loop through the JSON array and put each of the file urls within into a string array for these urls
+//            String thisFileUrlString = fileJSONArray.getJSONObject(i).getString("file");
+//            fileUrlArray[i] = thisFileUrlString;
+//        }
+//        do {
+//            //Delete the meta file, since we have the files url it contained, we no longer need it
+//            //The delete process sometimes needs to be written more than once
+//            destinationFile.delete();
+//        } while(destinationFile.exists());
+//        return fileUrlArray;
+//    }
 
-    private boolean fetchFile(HttpURLConnection httpConn){
-        //Get the attributes of a file, download it to the standard destination file, decompress it, remove the zip file
-        //Get the file attributes of the file to fetch
-        FDAFile thisFile = getFileAttributes(httpConn);
-        System.out.println("Fetching " + thisFile.getFileName() + ";  Disposition: " + thisFile.getDisposition() + ";  Content Type: " + thisFile.getContentType() + ";  Content Length: " + thisFile.getContentLength());
-        try{
-            //Create the destination file of the fetching file
-            destinationFile = createFetchDestination(thisFile);
-        } catch(IOException ioException){
-            System.out.println("Error in creating destination file and directory");
-            return false;
-        }
-        //Fetch file from URL and read into destination file
-        try{
-            System.out.println("Started fetching file " + thisFile.getFileName());
-            //Download the zip file from the FDA data server
-            downloadFileContent(httpConn, destinationFile);
-            System.out.println("Completed fetching file " + thisFile.getFileName());
-        } catch(IOException ioException) {
-            System.out.println("Could not download the file " + thisFile.getFileName());
-            return false;
-        }
-        if(thisFile.getContentType().contains("zip")){
-            //Decompress the zip file created from downloading the file (this is how it is downloaded from FDA)
-            try{
-                System.out.println("\nStarted decompressing file " + thisFile.getFileName());
-                decompressFileContent(destinationFile, thisFile);
-            } catch(IOException ioException){
-                System.out.println("Could not decompress the file: " + thisFile.getFileName());
-                return false;
-            }
-        }
-        return true;
-    }
+    //Moved to LocalDataDownloader class
+//    private boolean fetchFile(HttpURLConnection httpConn){
+//        //Get the attributes of a file, download it to the standard destination file, decompress it, remove the zip file
+//        //Get the file attributes of the file to fetch
+//        FDAFile thisFile = getFileAttributes(httpConn);
+//        System.out.println("Fetching " + thisFile.getFileName() + ";  Disposition: " + thisFile.getDisposition() + ";  Content Type: " + thisFile.getContentType() + ";  Content Length: " + thisFile.getContentLength());
+//        try{
+//            //Create the destination file of the fetching file
+//            destinationFile = createFetchDestination(thisFile);
+//        } catch(IOException ioException){
+//            System.out.println("Error in creating destination file and directory");
+//            return false;
+//        }
+//        //Fetch file from URL and read into destination file
+//        try{
+//            System.out.println("Started fetching file " + thisFile.getFileName());
+//            //Download the zip file from the FDA data server
+//            downloadFileContent(httpConn, destinationFile);
+//            System.out.println("Completed fetching file " + thisFile.getFileName());
+//        } catch(IOException ioException) {
+//            System.out.println("Could not download the file " + thisFile.getFileName());
+//            return false;
+//        }
+//        if(thisFile.getContentType().contains("zip")){
+//            //Decompress the zip file created from downloading the file (this is how it is downloaded from FDA)
+//            try{
+//                System.out.println("\nStarted decompressing file " + thisFile.getFileName());
+//                decompressFileContent(destinationFile, thisFile);
+//            } catch(IOException ioException){
+//                System.out.println("Could not decompress the file: " + thisFile.getFileName());
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
-    private void downloadFileContent(HttpURLConnection httpConn, File destinationFile) throws IOException{
-        //Read the FDA data file from the HTTP connection to the FDA data server and write into its destination file via a buffer
-        InputStream inputStream = httpConn.getInputStream();
-        FileOutputStream outputStream = new FileOutputStream(destinationFile);
-        int bytesRead;
-        byte[] inputBuffer = new byte[256000];
-        while((bytesRead = inputStream.read(inputBuffer)) != -1){
-            //Read the file contents into its destination until there is nothing else to read from the file
-            outputStream.write(inputBuffer, 0, bytesRead);
-        }
-        outputStream.close();
-        inputStream.close();
-    }
+    //Moved to LocalDataDownloader class
+//    private void downloadFileContent(HttpURLConnection httpConn, File destinationFile) throws IOException{
+//        //Read the FDA data file from the HTTP connection to the FDA data server and write into its destination file via a buffer
+//        InputStream inputStream = httpConn.getInputStream();
+//        FileOutputStream outputStream = new FileOutputStream(destinationFile);
+//        int bytesRead;
+//        byte[] inputBuffer = new byte[256000];
+//        while((bytesRead = inputStream.read(inputBuffer)) != -1){
+//            //Read the file contents into its destination until there is nothing else to read from the file
+//            outputStream.write(inputBuffer, 0, bytesRead);
+//        }
+//        outputStream.close();
+//        inputStream.close();
+//    }
 
-    private void decompressFileContent(File compressedFile, FDAFile thisFile) throws IOException{
-        //Decompress the zip file into a normal JSON file. Files come as zip from the FDA
-        String zipFilePathString = compressedFile.getPath();
-        String destinationDirectoryPathString = zipFilePathString.substring(zipFilePathString.lastIndexOf("/") + 1, zipFilePathString.lastIndexOf("."));
-        //Create a non-zip file destination directory for the decompressed file to be written into
-        File decompressedFileDestination = new File(destinationDirectoryPathString);
-        decompressedFileDestination.mkdir();
-        ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(compressedFile));
-        ZipEntry zipEntry = zipInputStream.getNextEntry();
-        while(zipEntry != null){
-            //Decompress the file and read into the decompressed file destination files (by the same name without the zip)
-            File contentFile = new File(destinationDirectoryPathString + File.separator + zipEntry.getName());
-            new File(contentFile.getParent()).mkdirs();
-            FileOutputStream outputStream = new FileOutputStream(contentFile);
-            int bytesRead;
-            byte buffer[] = new byte[256000];
-            while((bytesRead = zipInputStream.read(buffer)) > 0){
-                //Transfer the read/decompressed data from the zip to the normal file
-                outputStream.write(buffer, 0, bytesRead);
-            }
-            outputStream.close();
-            zipEntry = zipInputStream.getNextEntry();
-        }
-        zipInputStream.closeEntry();
-        zipInputStream.close();
-        removeCompressedFile(compressedFile);
-    }
+    //Moved to LocalDataDownloader class
+//    private void decompressFileContent(File compressedFile, FDAFile thisFile) throws IOException{
+//        //Decompress the zip file into a normal JSON file. Files come as zip from the FDA
+//        String zipFilePathString = compressedFile.getPath();
+//        String destinationDirectoryPathString = zipFilePathString.substring(zipFilePathString.lastIndexOf("/") + 1, zipFilePathString.lastIndexOf("."));
+//        //Create a non-zip file destination directory for the decompressed file to be written into
+//        File decompressedFileDestination = new File(destinationDirectoryPathString);
+//        decompressedFileDestination.mkdir();
+//        ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(compressedFile));
+//        ZipEntry zipEntry = zipInputStream.getNextEntry();
+//        while(zipEntry != null){
+//            //Decompress the file and read into the decompressed file destination files (by the same name without the zip)
+//            File contentFile = new File(destinationDirectoryPathString + File.separator + zipEntry.getName());
+//            new File(contentFile.getParent()).mkdirs();
+//            FileOutputStream outputStream = new FileOutputStream(contentFile);
+//            int bytesRead;
+//            byte buffer[] = new byte[256000];
+//            while((bytesRead = zipInputStream.read(buffer)) > 0){
+//                //Transfer the read/decompressed data from the zip to the normal file
+//                outputStream.write(buffer, 0, bytesRead);
+//            }
+//            outputStream.close();
+//            zipEntry = zipInputStream.getNextEntry();
+//        }
+//        zipInputStream.closeEntry();
+//        zipInputStream.close();
+//        removeCompressedFile(compressedFile);
+//    }
 
-    private void removeCompressedFile(File compressedFile){
-        //Remove compressed file that was just decompressed
-        compressedFile.delete();
-    }
+    //Moved to LocalDataDownloader class
+//    private void removeCompressedFile(File compressedFile){
+//        //Remove compressed file that was just decompressed
+//        compressedFile.delete();
+//    }
 
-    private JSONObject getJSONRootFromFile(File parseFromFile){
-        //Get the root JSON object from a file - THIS CAN ONLY BE DONE ON "SMALL" JSON OBJECT FILES
-        JSONTokener jsonParser;
-        FileReader jsonFileReader;
-        JSONObject jsonObjectRoot;
-        try{
-            //Read the file into RAM
-            jsonFileReader = new FileReader(parseFromFile);
-            //Parse the read strings into JSON object
-            jsonParser = new JSONTokener(jsonFileReader);
-            //Create a JSON of the entire file string
-            jsonObjectRoot = new JSONObject(jsonParser);
-            //Close the file reader
-            jsonFileReader.close();
-        } catch(IOException ioException){
-            //"Do nothing, file is passed, this can not happen" - Joel, who knows damn well it just might happen
-            return null;
-        }
-        return jsonObjectRoot;
-    }
+    //Moved to LocalDataDownloader class
+//    private JSONObject getJSONRootFromFile(File parseFromFile){
+//        //Get the root JSON object from a file - THIS CAN ONLY BE DONE ON "SMALL" JSON OBJECT FILES
+//        JSONTokener jsonParser;
+//        FileReader jsonFileReader;
+//        JSONObject jsonObjectRoot;
+//        try{
+//            //Read the file into RAM
+//            jsonFileReader = new FileReader(parseFromFile);
+//            //Parse the read strings into JSON object
+//            jsonParser = new JSONTokener(jsonFileReader);
+//            //Create a JSON of the entire file string
+//            jsonObjectRoot = new JSONObject(jsonParser);
+//            //Close the file reader
+//            jsonFileReader.close();
+//        } catch(IOException ioException){
+//            //"Do nothing, file is passed, this can not happen" - Joel, who knows damn well it just might happen
+//            return null;
+//        }
+//        return jsonObjectRoot;
+//    }
 
-    private FDAFile getFileAttributes(HttpURLConnection httpConn){
-        //Get the URL string back so it can be manipulated
-        String fileUrlString = httpConn.getURL().toString();
-        //Get file name from URL
-        String fileName = fileUrlString.substring(fileUrlString.lastIndexOf("/") + 1, fileUrlString.length());
-        //Get disposition from connection header file (if exists)
-        String disposition = httpConn.getHeaderField("Content-Disposition");
-        //Get content type from connection
-        String contentType = httpConn.getContentType();
-        //Get content length from connection
-        int contentLength = httpConn.getContentLength();
-        //Create preliminary file object
-        return new FDAFile(fileName, disposition, contentType, contentLength);
-    }
+    //Moved to LocalDataDownloader class
+//    private FDAFile getFileAttributes(HttpURLConnection httpConn){
+//        //Get the URL string back so it can be manipulated
+//        String fileUrlString = httpConn.getURL().toString();
+//        //Get file name from URL
+//        String fileName = fileUrlString.substring(fileUrlString.lastIndexOf("/") + 1, fileUrlString.length());
+//        //Get disposition from connection header file (if exists)
+//        String disposition = httpConn.getHeaderField("Content-Disposition");
+//        //Get content type from connection
+//        String contentType = httpConn.getContentType();
+//        //Get content length from connection
+//        int contentLength = httpConn.getContentLength();
+//        //Create preliminary file object
+//        return new FDAFile(fileName, disposition, contentType, contentLength);
+//    }
 
-    private File createFetchDestination(FDAFile fetchingFile) throws IOException {
-        //Create destination directory
-        File fetchedDataDestinationDirectory = new File(localDataFile);
-        fetchedDataDestinationDirectory.mkdirs();
-        //Create destination file if necessary
-        File fetchedDataDestinationFile = new File(fetchedDataDestinationDirectory.getPath() + "/" + fetchingFile.getFileName());
-        fetchedDataDestinationFile.createNewFile();
-        //Return the destination for the file that is fetched
-        return fetchedDataDestinationFile;
-    }
+    //Moved to LocalDataDownloader class
+//    private File createFetchDestination(FDAFile fetchingFile) throws IOException {
+//        //Create destination directory
+//        File fetchedDataDestinationDirectory = new File(localDataFile);
+//        fetchedDataDestinationDirectory.mkdirs();
+//        //Create destination file if necessary
+//        File fetchedDataDestinationFile = new File(fetchedDataDestinationDirectory.getPath() + "/" + fetchingFile.getFileName());
+//        fetchedDataDestinationFile.createNewFile();
+//        //Return the destination for the file that is fetched
+//        return fetchedDataDestinationFile;
+//    }
 
-    private class FDAFile{
-        private String fileName;
-        private String disposition;
-        private String contentType;
-        private int contentLength;
-
-        FDAFile(String fileName, String disposition, String contentType, int contentLength){
-            this.fileName = fileName;
-            this.disposition = disposition;
-            this.contentType = contentType;
-            this.contentLength = contentLength;
-        }
-        String getFileName(){
-            return this.fileName;
-        }
-
-        String getDisposition(){
-            return this.disposition;
-        }
-
-        String getContentType(){
-            return this.contentType;
-        }
-
-        int getContentLength(){
-            return this.contentLength;
-        }
-    }
+    //Moved class to its own class file
+//    private class FDAFile{
+//        private String fileName;
+//        private String disposition;
+//        private String contentType;
+//        private int contentLength;
+//
+//        FDAFile(String fileName, String disposition, String contentType, int contentLength){
+//            this.fileName = fileName;
+//            this.disposition = disposition;
+//            this.contentType = contentType;
+//            this.contentLength = contentLength;
+//        }
+//        String getFileName(){
+//            return this.fileName;
+//        }
+//
+//        String getDisposition(){
+//            return this.disposition;
+//        }
+//
+//        String getContentType(){
+//            return this.contentType;
+//        }
+//
+//        int getContentLength(){
+//            return this.contentLength;
+//        }
+//    }
 
     private class FDADeviceProperty{
         String keyName;
