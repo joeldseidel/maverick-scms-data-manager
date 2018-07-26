@@ -13,6 +13,7 @@ public class ParsingThread implements Runnable
     private BlockingQueue<String> objectStrings;
     private BlockingQueue<JSONObject> parsedObjects;
 
+    public ParsingThread(BlockingQueue<String> objPointer, BlockingQueue<JSONObject> parPointer)
     {
         objectStrings = objPointer;
         parsedObjects = parPointer;
