@@ -4,9 +4,7 @@
 //                  instance, and push that instance onto the commit queue for DB commit
 
 import java.util.concurrent.BlockingQueue;
-import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 public class ParsingThread implements Runnable
 {
@@ -21,29 +19,40 @@ public class ParsingThread implements Runnable
 
     public void run()
     {
-        //pop object off of objectStrings queue accounting for possible interrupting which should occur when
-        //these threads are killed when the files are finished
-        String newObjectString = "";
-        try
+        while(true)
         {
-            objectStrings.take();
-        }
-        catch (InterruptedException IEE)
-        {
-            System.out.println("Wait for an object to parse interrupted");
-            return;
-        }
-        //parse JSON string into a JSONObject instance
-        JSONObject newJSONObject = new JSONObject(newObjectString);
-        //push JSONObject onto the parsedObjects queue for DB commit
-        try
-        {
-            parsedObjects.put(newJSONObject);
-        }
-        catch (InterruptedException IEE)
-        {
-            System.out.println("Wait to place an object on the parsed queue interrupted on object: \n" + newObjectString);
+            //pop object off of objectStrings queue accounting for possible interrupting which should occur when
+            //these threads are killed when the files are finished
+            String newObjectString = "";
+            try
+            {
+                if (objectStrings.toArray().length == 0)
+                {
+                    //yield to other threads when there are no more to parse
+                    Thread.yield();
+                }
+                newObjectString = objectStrings.take();
+            }
+            catch (InterruptedException IEE)
+            {
+                System.out.println("Wait for an object to parse interrupted");
+                return;
+            }
+            try
+            {
+                //parse JSON string into a JSONObject instance
+                JSONObject newJSONObject = new JSONObject(newObjectString);
+                //push JSONObject onto the parsedObjects queue for DB commit
+                parsedObjects.put(newJSONObject);
+            }
+            catch (InterruptedException IEE)
+            {
+                System.out.println("Wait to place an object on the parsed queue interrupted on object: \n" + newObjectString);
+            }
+            catch (org.json.JSONException json)
+            {
+                System.err.println("JSON String Invalid: " + newObjectString);
+            }
         }
     }
-
 }

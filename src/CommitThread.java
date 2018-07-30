@@ -19,11 +19,19 @@ public class CommitThread implements Runnable
 
     public void run()
     {
-        //pop all JSONObjects off queue
-        //commit this group to the database
-        //ensure commit was successful, otherwise try again
-        //wait for another object to get added
-        //repeat until killed
+        while(true)
+        {
+            try
+            {
+                //take objects off the queue to make it not so large
+                JSONObject object = parsedObjects.take();
+                object = null;
+            }
+            catch (InterruptedException IEE)
+            {
+                System.out.println("Commit Thread Interrupted");
+            }
+        }
     }
 
 

@@ -6,8 +6,10 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import java.nio.file.Paths;
 
 public class LocalDataDownloader
 {
@@ -19,7 +21,26 @@ public class LocalDataDownloader
         //check if fdaFileUrl request failed
         if (fdaFilesUrls == null)
             return false;
-
+        //delete data folder if it already exists, assume data is out of date.
+        if (Files.exists(Paths.get(localDataFile)))
+        {
+            try
+            {
+                //get all files in the parent directory and delete them first
+                File oldCacheDirectory = new File(localDataFile);
+                File oldCacheFiles[] = oldCacheDirectory.listFiles();
+                for(File f : oldCacheFiles)
+                {
+                    Files.delete(f.toPath());
+                }
+                //delete folder
+                Files.delete(Paths.get(localDataFile));
+            }
+            catch (IOException IOE)
+            {
+                System.out.println("Error when attempting to remove past data cache");
+            }
+        }
 
         for(int i = 0; i < fdaFilesUrls.length; i++){
             String thisFileUrlString = fdaFilesUrls[i];
@@ -118,6 +139,7 @@ public class LocalDataDownloader
                 return false;
             }
         }
+
         return true;
     }
 
@@ -135,7 +157,8 @@ public class LocalDataDownloader
 
     private static void decompressFileContent(File compressedFile, FDAFile thisFile) throws IOException{
         String zipFilePathString = compressedFile.getPath();
-        String destinationDirectoryPathString = zipFilePathString.substring(zipFilePathString.lastIndexOf("/") + 1, zipFilePathString.lastIndexOf("."));
+        String fileName = zipFilePathString.substring(zipFilePathString.lastIndexOf("/") + 1, zipFilePathString.lastIndexOf("."));
+        String destinationDirectoryPathString = localDataFile + "/" + fileName;
         File decompressedFileDestination = new File(destinationDirectoryPathString);
         decompressedFileDestination.mkdir();
         ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(compressedFile));
@@ -154,6 +177,15 @@ public class LocalDataDownloader
         }
         zipInputStream.closeEntry();
         zipInputStream.close();
+
+
+        //have to move the file from the new directory it extracts to to the actual data files directory
+        System.out.println("Moving data file");
+        Files.move(Paths.get(localDataFile + "/" + fileName + "/" + fileName), Paths.get(localDataFile + "/" + "file" + fileName));
+        //delete that extra directory
+        System.out.println("Deleting spare directory");
+        Files.delete(Paths.get(localDataFile + "/" + fileName));
+
         removeCompressedFile(compressedFile);
     }
 
