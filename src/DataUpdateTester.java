@@ -19,7 +19,7 @@ public class DataUpdateTester
     public static void main(String[] args)
     {
         System.out.println("Started: " + LocalDateTime.now());
-        LocalDataDownloader.tryFetchFDAFiles();
+        //LocalDataDownloader.tryFetchFDAFiles();
 
         //initialize consumer threads
         Thread parserThread = new Thread(new ParsingThread(objectStringQueue, jsonObjectQueue));
@@ -114,6 +114,10 @@ public class DataUpdateTester
             System.out.println("Time: " + LocalDateTime.now());
             System.out.println("Object Length: " + objectStringQueue.toArray().length);
             System.out.println("Parsed Length: " + jsonObjectQueue.toArray().length);
+            if (readerThread.isAlive() == false)
+            {
+                System.out.println("READER IS DEAD");
+            }
             try
             {
                 Thread.sleep(10000);

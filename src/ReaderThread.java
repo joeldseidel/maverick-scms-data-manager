@@ -24,9 +24,9 @@ public class ReaderThread implements Runnable
 
     public void run()
     {
-        System.out.println("Starting");
+        System.out.println("Starting to read all files");
         splitAllFiles();
-        System.out.println("finished");
+        System.out.println("Finished Reading All Files");
     }
 
     //Parse all of the files given from the FDA after a fetch
