@@ -133,7 +133,7 @@ public class LocalDataDownloader
             //Decompress the zip file created from downloading the file (this is how it is downloaded from FDA)
             try{
                 System.out.println("\nStarted decompressing file " + thisFile.getFileName());
-                decompressFileContent(destinationFile, thisFile);
+                decompressFileContent(destinationFile);
             } catch(IOException ioException){
                 System.out.println("Could not decompress the file: " + thisFile.getFileName());
                 return false;
@@ -155,18 +155,15 @@ public class LocalDataDownloader
         inputStream.close();
     }
 
-    private static void decompressFileContent(File compressedFile, FDAFile thisFile) throws IOException{
+    private static void decompressFileContent(File compressedFile) throws IOException{
         String zipFilePathString = compressedFile.getPath();
-        String fileName = zipFilePathString.substring(zipFilePathString.lastIndexOf("/") + 1, zipFilePathString.lastIndexOf("."));
+        String fileName = zipFilePathString.substring(zipFilePathString.lastIndexOf("\\") + 1, zipFilePathString.lastIndexOf("."));
         String destinationDirectoryPathString = localDataFile + "/" + fileName;
         File decompressedFileDestination = new File(destinationDirectoryPathString);
-        decompressedFileDestination.mkdir();
         ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(compressedFile));
         ZipEntry zipEntry = zipInputStream.getNextEntry();
         while(zipEntry != null){
-            File contentFile = new File(destinationDirectoryPathString + File.separator + zipEntry.getName());
-            new File(contentFile.getParent()).mkdirs();
-            FileOutputStream outputStream = new FileOutputStream(contentFile);
+            FileOutputStream outputStream = new FileOutputStream(decompressedFileDestination);
             int bytesRead;
             byte buffer[] = new byte[256000];
             while((bytesRead = zipInputStream.read(buffer)) > 0){
@@ -177,15 +174,6 @@ public class LocalDataDownloader
         }
         zipInputStream.closeEntry();
         zipInputStream.close();
-
-
-        //have to move the file from the new directory it extracts to to the actual data files directory
-        System.out.println("Moving data file");
-        Files.move(Paths.get(localDataFile + "/" + fileName + "/" + fileName), Paths.get(localDataFile + "/" + "file" + fileName));
-        //delete that extra directory
-        System.out.println("Deleting spare directory");
-        Files.delete(Paths.get(localDataFile + "/" + fileName));
-
         removeCompressedFile(compressedFile);
     }
 
