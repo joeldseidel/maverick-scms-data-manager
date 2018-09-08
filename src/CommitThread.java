@@ -15,55 +15,61 @@ public class CommitThread implements Runnable
 {
     private BlockingQueue<JSONObject> parsedObjects;
 
-    private HashMap<String, String> tableNamesForJSONArray;
+    private HashMap<String, String> tableNamesForJSONGroups;
 
     public CommitThread(BlockingQueue<JSONObject> parPointer)
     {
         parsedObjects = parPointer;
 
-        tableNamesForJSONArray = new HashMap<>();
+        tableNamesForJSONGroups = new HashMap<>();
+        tableNamesForJSONGroups.put("identifiers", "device_identifiers");
+        tableNamesForJSONGroups.put("product_codes", "device_product_codes");
+        tableNamesForJSONGroups.put("customer_contacts", "device_customer_contacts");
+        tableNamesForJSONGroups.put("gmdn_terms", "device_gmdn_terms");
+        tableNamesForJSONGroups.put("device_sizes", "device_device_sizes");
+        tableNamesForJSONGroups.put("storage", "device_storage");
+
+
 
     }
 
     public void run()
     {
+
+        List<String> deviceInsertStatements = new LinkedList<>();
+        List<String> otherInsertStatements = new LinkedList<>();
+
         while(true)
         {
             try
             {
+                if (parsedObjects.isEmpty())
+                {
+                    //commit what sql statements we have now while parsers catch up
+                    if (deviceInsertStatements.isEmpty() == false)
+                    {
+                        //has device inserts to perform
+                    }
+                    if (otherInsertStatements.isEmpty() == false)
+                    {
+                        //has other inserts to perform
+                    }
+                    System.out.println("fuck");
+                }
                 //take objects off the queue to make it not so large
                 JSONObject object = parsedObjects.take();
                 //DatabaseInteraction database = new DatabaseInteraction(Config.host, Config.port, Config.user, Config.pass, Config.databaseName);
+                String deviceFDAID = object.getJSONArray("identifiers").getJSONObject(0).getString("id");
+                Set<String> keys = object.keySet();
 
+                List<FDADeviceProperty> deviceProperties = new LinkedList<>();
 
-                /*Set<String> keys = object.keySet();
                 for (String key : keys)
                 {
                     Object result = object.get(key);
-                    if (result instanceof String[])
-                    {
-                        System.out.println("String Array");
-                    }
-                    else if (result instanceof String)
-                    {
-                        System.out.println("String");
-                    }
-                    else if (result instanceof JSONObject)
-                    {
-                        System.out.println("Object: " + key);
-                    }
-                    else if (result instanceof JSONArray)
-                    {
-                        System.out.println("Array: " + key);
-                    }
-                    else
-                    {
-                        System.out.println("Else: " + key);
-                    }
 
                     //parse object keys/values to commit values
-                    List<FDADeviceProperty> deviceProperties = new LinkedList<>();
-                    if (result instanceof String[])
+                    if (result instanceof String)
                     {
                         //column and value get put into the insert statement
                         deviceProperties.add(new FDADeviceProperty(key, result));
@@ -73,26 +79,105 @@ public class CommitThread implements Runnable
                         //all values in array get keys and values added to the insert statement
                         //cast the result to an array for property access
                         List<Object> arrayValues = ((JSONArray)result).toList();
-                        if (arrayValues.size() > 1)
+                        List<FDADeviceProperty> arrayProps = new ArrayList<>();
+                        String tableName = tableNamesForJSONGroups.get(key);
+                        if (tableName == null)
                         {
-                            System.out.println("Oh shit");
+                            //make sure key has been mapped to a coorisponding table
+                            System.err.println("Can't find table's name for key in map");
+                            continue;
                         }
 
+                        for (Object val : arrayValues)
+                        {
+                            //ensure array object is a hash map as expected
+                            if (val instanceof HashMap == false)
+                            {
+                                System.err.println("Invalid array value for key: " + key);
+                                continue;
+                            }
+                            //cast object and get all keys
+                            HashMap valMapCast = (HashMap)val;
+                            Set<String> valKeys = valMapCast.keySet();
+                            for (String valKey : valKeys)
+                            {
+                                //add this value from the map to the list for this JSON array
+                                Object mappedValue = valMapCast.get(valKey);
+                                //simple value of a string
+                                if (mappedValue instanceof String)
+                                {
+                                    arrayProps.add(new FDADeviceProperty(valKey, valMapCast.get(valKey)));
+                                }
+                                if (mappedValue instanceof HashMap)
+                                {
+                                    //special hashmap value
+                                    //two tables have hashmap values, storage and product codes, ensure it is one of these
+                                    if (key.equals("product_codes") == false && key.equals("storage") == false)
+                                    {
+                                        System.err.println("Invalid hashmap subvalue");
+                                    }
+                                    HashMap castedMappedValue = (HashMap)mappedValue;
+                                    Set<String> mappedValueKeys = castedMappedValue.keySet();
+
+                                    //handle product_code's special case
+                                    if (key.equals("product_codes"))
+                                    {
+                                        //product codes just needs the mapped values to get added to the array's properties
+                                        for (String k : mappedValueKeys)
+                                        {
+                                            arrayProps.add(new FDADeviceProperty(k, castedMappedValue.get(k)));
+                                        }
+                                    }
+                                    else
+                                    {
+                                        //handle storage's special case
+                                        if (valKey.equals("high"))
+                                        {
+                                            //handle high value
+                                            arrayProps.add(new FDADeviceProperty("high_value", castedMappedValue.get("value")));
+                                            arrayProps.add(new FDADeviceProperty("high_unit", castedMappedValue.get("unit")));
+                                        }
+                                        else if (valKey.equals("low"))
+                                        {
+                                            //handle low value
+                                            arrayProps.add(new FDADeviceProperty("low_value", castedMappedValue.get("value")));
+                                            arrayProps.add(new FDADeviceProperty("low_unit", castedMappedValue.get("unit")));
+                                        }
+                                        else
+                                        {
+                                            System.err.println("Invalid subkey for storage key");
+                                        }
+                                    }
+                                }
+
+                            }
+                            String arrayInsertStatement = fdaDevicePropertyQueryBuilder(tableName, deviceFDAID, arrayProps);
+                            otherInsertStatements.add(arrayInsertStatement);
+                            arrayProps.clear();
+                        }
                     }
                     else if (result instanceof JSONObject)
                     {
+                        List<FDADeviceProperty> objectProps = new ArrayList<>();
                         //all values of the object get keys and values added to the insert statement
+                        //System.out.println("JSON Object");
+                        if (key.equals("sterilization") == false)
+                        {
+                            //make sure JSON object is the sterilization object, which becomes a device property
+                            System.err.println("Invalid JSON Child Object found");
+                            continue;
+                        }
                     }
                     else
                     {
                         //some odd object, throw error due to not knowing how to process.
+                        System.err.println("Unknown object encountered, please restart commit");
                     }
 
-                }*/
+                }
 
-
-                //writeDevice(object, database);
-            }
+                deviceInsertStatements.add(fdaDevicePropertyQueryBuilder("devices", deviceFDAID, deviceProperties));
+                            }
             catch (InterruptedException IEE)
             {
                 System.out.println("Commit Thread Interrupted");
@@ -360,7 +445,11 @@ public class CommitThread implements Runnable
             writeDeviceColumnsSql += ", " + thisProperty.getColumnName();
             writeDeviceValuesSql += ", ";
             Object propertyValue = thisProperty.getValue();
-            if(propertyValue.getClass() == String.class){
+            if (propertyValue == null)
+            {
+                writeDeviceValuesSql += "NULL";
+            }
+            else if(propertyValue.getClass() == String.class){
                 //If the value of the property is a string, it needs to have the single quotes
                 String propValString = propertyValue.toString();
                 propValString = propValString.replace("'", "''");
