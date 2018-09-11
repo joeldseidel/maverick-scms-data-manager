@@ -49,16 +49,22 @@ public class CommitThread implements Runnable
                     if (deviceInsertStatements.isEmpty() == false)
                     {
                         //has device inserts to perform
+                        String accumulatedSQLStatements = "";
+                        for (String s : deviceInsertStatements)
+                        {
+                            accumulatedSQLStatements += s + ";\n";
+                        }
+                        System.out.println("fuck");
                     }
                     if (otherInsertStatements.isEmpty() == false)
                     {
                         //has other inserts to perform
                     }
-                    System.out.println("fuck");
+                    //System.out.println("fuck");
                 }
                 //take objects off the queue to make it not so large
                 JSONObject object = parsedObjects.take();
-                //DatabaseInteraction database = new DatabaseInteraction(Config.host, Config.port, Config.user, Config.pass, Config.databaseName);
+                DatabaseInteraction database = new DatabaseInteraction(Config.host, Config.port, Config.user, Config.pass, Config.databaseName);
                 String deviceFDAID = object.getJSONArray("identifiers").getJSONObject(0).getString("id");
                 Set<String> keys = object.keySet();
 
