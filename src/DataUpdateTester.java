@@ -4,9 +4,7 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.*;
 
 
 public class DataUpdateTester
@@ -19,7 +17,7 @@ public class DataUpdateTester
     public static void main(String[] args)
     {
         System.out.println("Started: " + LocalDateTime.now());
-        //LocalDataDownloader.tryFetchFDAFiles();
+        LocalDataDownloader.tryFetchFDAFiles();
 
         //initialize consumer threads
         Thread parserThread = new Thread(new ParsingThread(objectStringQueue, jsonObjectQueue));
@@ -51,11 +49,8 @@ public class DataUpdateTester
         Thread parser27Thread = new Thread(new ParsingThread(objectStringQueue, jsonObjectQueue));
         Thread parser28Thread = new Thread(new ParsingThread(objectStringQueue, jsonObjectQueue));
         Thread parser29Thread = new Thread(new ParsingThread(objectStringQueue, jsonObjectQueue));
-        Thread commitThread = new Thread(new CommitThread(jsonObjectQueue));
-        Thread commit2Thread = new Thread(new CommitThread(jsonObjectQueue));
-        Thread commit3Thread = new Thread(new CommitThread(jsonObjectQueue));
-        Thread commit4Thread = new Thread(new CommitThread(jsonObjectQueue));
-        Thread commit5Thread = new Thread(new CommitThread(jsonObjectQueue));
+
+
 
         try {
             Thread.sleep(10000);
@@ -93,11 +88,11 @@ public class DataUpdateTester
         parser27Thread.start();
         parser28Thread.start();
         parser29Thread.start();
-        commitThread.start();
-        commit2Thread.start();
-        commit3Thread.start();
-        commit4Thread.start();
-        commit5Thread.start();
+        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+        for (int i = 0; i < 10; i++)
+        {
+            executor.submit(new CommitThread(jsonObjectQueue));
+        }
 
         Scanner kybd = new Scanner(System.in);
         System.out.println("Download successful, hit enter to begin update");
@@ -112,8 +107,8 @@ public class DataUpdateTester
         while (true)
         {
             System.out.println("Time: " + LocalDateTime.now());
-            System.out.println("Object Length: " + objectStringQueue.toArray().length);
-            System.out.println("Parsed Length: " + jsonObjectQueue.toArray().length);
+            System.out.println("Object Length: " + objectStringQueue.size());
+            System.out.println("Parsed Length: " + jsonObjectQueue.size());
             if (readerThread.isAlive() == false)
             {
                 System.out.println("READER IS DEAD");

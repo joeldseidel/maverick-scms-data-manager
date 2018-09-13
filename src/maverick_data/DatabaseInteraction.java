@@ -62,7 +62,7 @@ public class DatabaseInteraction {
             // build host string
             String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
             // debug attempted connection
-            System.out.println("Attempting connection to " + url);
+            //System.out.println("Attempting connection to " + url);
             // create connection
             return DriverManager.getConnection(url, username, password);
         }
@@ -128,6 +128,15 @@ public class DatabaseInteraction {
     public void nonQuery(PreparedStatement nonQueryStatement){
         try{
             nonQueryStatement.executeUpdate();
+        } catch(SQLException sqlException){
+            System.out.println(sqlException.getMessage());
+        }
+    }
+
+    public void nonQueryBatch(PreparedStatement nonQueryStatement)
+    {
+        try{
+            nonQueryStatement.executeBatch();
         } catch(SQLException sqlException){
             System.out.println(sqlException.getMessage());
         }

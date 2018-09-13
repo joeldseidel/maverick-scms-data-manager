@@ -26,9 +26,14 @@ public class ParsingThread implements Runnable
             String newObjectString = "";
             try
             {
-                if (objectStrings.toArray().length == 0)
+                while (objectStrings.size() == 0)
                 {
                     //yield to other threads when there are no more to parse
+                    Thread.yield();
+                }
+                while (parsedObjects.size() > 100000)
+                {
+                    //yield to other threads when too many parsed objects are waiting on the stack
                     Thread.yield();
                 }
                 newObjectString = objectStrings.take();

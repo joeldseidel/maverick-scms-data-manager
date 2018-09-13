@@ -39,6 +39,10 @@ public class ReaderThread implements Runnable
         for(int i = 0; i < dataFilesList.length; i++)
         {
             System.out.println("Working on parsing data file " + (i + 1) + "/" + dataFilesList.length);
+            while(objectStrings.size() > 100000)
+            {
+                Thread.yield();
+            }
             //It's going to be the only file in its parent, just get the path from it
             System.out.println("Data File Path: " + dataFilesList[i].getPath());
             File thisDataFilePath = new File(dataFilesList[i].getPath());
