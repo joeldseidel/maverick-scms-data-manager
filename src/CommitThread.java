@@ -8,7 +8,6 @@ import java.util.*;
 import java.util.concurrent.BlockingQueue;
 
 import maverick_data.DatabaseInteraction;
-import maverick_data.Config;
 import maverick_data.DatabaseType;
 import org.json.JSONArray;
 import org.json.JSONObject;
